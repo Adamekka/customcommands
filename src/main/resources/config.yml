@@ -1,0 +1,25 @@
+# How to use this plugin?
+# It's simple
+
+#########################################
+#                EXAMPLE                #
+#########################################
+#<name-of-the-class>:                   #
+#  commands:                            #
+#    - "say hi"                         #
+#    - "say enjoy your time on server"  #
+#  aliases:                             #
+#    - "greet-players"                  #
+#    - "welcome-players"                #
+#########################################
+
+# Commands you type to aliases will execute commands you defined earlier
+# Command greet-player will make server say "hi" and say "enjoy your time on server"
+
+test:
+  commands:
+    - "say test"
+    - "say test1"
+  aliases:
+    - "test"
+    - "test1"

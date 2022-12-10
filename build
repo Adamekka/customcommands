@@ -1,0 +1,6 @@
+#!/bin/sh
+
+mvn package -f "./pom.xml"
+cp -vf ./target/customcommands-0.0.1.jar ~/paper-server/plugins/customcommands-0.0.1.jar
+cd ~/paper-server || exit | echo "No ~/paper-server/ dir"
+./start.sh

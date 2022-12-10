@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Usage:
+#   deploy <server>
+# Example:
+#   deploy test-server
+
+if [ $# -eq 0 ]; then
+    echo "Error: No args"
+    echo ""
+    echo "Usage:"
+    echo "  deploy <server>"
+    echo "Example:"
+    echo "  deploy test-server"
+    exit 1
+fi
+
+echo "Deploying plugin to server..."
+sftp -i ~/.ssh/key-ubuntu "ubuntu@138.3.254.52:$1/plugins" <<EOF
+lcd ./target/
+rm customcommands-0.0.1.jar
+put customcommands-0.0.1.jar
+quit
+EOF

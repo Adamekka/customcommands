@@ -3,7 +3,6 @@ package com.adamekka.customcommands;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
@@ -52,7 +51,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        LOGGER.info("customcommands disabled");
+        super.onDisable();
     }
 
     @Override

@@ -13,8 +13,10 @@
 #    - "welcome-players"                #
 #########################################
 
-# Commands you type to aliases will execute commands you defined earlier
+# Commands you type to aliases will execute commands you defined in commands
+
 # Command greet-player will make server say "hi" and say "enjoy your time on server"
+# Same goes for command welcome-players
 
 test:
   commands:

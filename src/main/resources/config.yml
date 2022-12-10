@@ -1,27 +1,33 @@
 # How to use this plugin?
 # It's simple
 
-#########################################
-#                EXAMPLE                #
-#########################################
-#<name-of-the-class>:                   #
-#  commands:                            #
-#    - "say hi"                         #
-#    - "say enjoy your time on server"  #
-#  aliases:                             #
-#    - "greet-players"                  #
-#    - "welcome-players"                #
-#########################################
+#############################################
+#                  EXAMPLE                  #
+#############################################
+#commands:                                  #
+#  <some-name>:                             #
+#    executes: "say hi"                     #
+#    description: "Some description"        #
+#    aliases:                               #
+#        - "greet-players"                  #
+#        - "welcome-players"                #
+#############################################
 
-# Commands you type to aliases will execute commands you defined in commands
+# Commands you define in "aliases" will execute command you defined "executes"
 
-# Command greet-player will make server say "hi" and say "enjoy your time on server"
-# Same goes for command welcome-players
+# Command "greet-player" will execute command "say hi"
+# Same goes for command "welcome-players"
 
-test:
-  commands:
-    - "say test"
-    - "say test1"
-  aliases:
-    - "test"
-    - "test1"
+commands:
+  test:
+    executes: "say test"
+    description: "This is a description"
+    aliases:
+      - "test1"
+      - "test2"
+
+# TODO: Implement execute
+# execute:
+#   test:
+#     - "say test"
+#     - "say test1"

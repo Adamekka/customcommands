@@ -10,12 +10,14 @@ public class Main extends JavaPlugin {
     private static final Logger LOGGER = Logger.getLogger("customcommands");
     public FileConfiguration config = getConfig();
 
+    @Override
     public void onEnable() {
         plugin = this;
 
         LOGGER.info("customcommands enabled");
     }
 
+    @Override
     public void onDisable() {
         LOGGER.info("customcommands disabled");
     }

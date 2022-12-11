@@ -116,7 +116,7 @@ public class Main extends JavaPlugin {
                                 for (String index : commandChain.executes) {
                                     p.performCommand(index);
                                 }
-                                return false;
+                                return true;
                             }
                         });
             }

@@ -26,8 +26,9 @@ commands:
       - "test1"
       - "test2"
 
-# TODO: Implement execute
-# execute:
-#   test:
-#     - "say test"
-#     - "say test1"
+command-chains:
+  test:
+    command: "test3"
+    executes:
+      - "say test"
+      - "say test1"

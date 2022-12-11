@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.annotation.Nonnull;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -28,9 +26,20 @@ class CustomCommand {
     }
 }
 
+class CommandChain {
+    public String command;
+    public List<String> executes;
+
+    public CommandChain(String command, List<String> executes) {
+        this.command = command;
+        this.executes = executes;
+    }
+}
+
 public class Main extends JavaPlugin {
 
     private static ArrayList<CustomCommand> customCommands;
+    private static ArrayList<CommandChain> customChains;
 
     private static final Logger LOGGER = Logger.getLogger("customcommands");
 
@@ -40,6 +49,8 @@ public class Main extends JavaPlugin {
         loadConfig();
 
         customCommands = new ArrayList<>();
+        customChains = new ArrayList<>();
+
         readConfig();
         registerCommands();
         for (CustomCommand customCommand : customCommands) {
@@ -55,8 +66,8 @@ public class Main extends JavaPlugin {
     }
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label,
-            @Nonnull String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label,
+            String[] args) {
         return super.onCommand(sender, command, label, args);
     }
 
@@ -72,6 +83,7 @@ public class Main extends JavaPlugin {
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(getServer());
 
+            // Custom commands
             for (CustomCommand customCommand : customCommands) {
                 commandMap.register("customcommands",
                         new Command(customCommand.command, customCommand.description, "/<command>",
@@ -85,6 +97,26 @@ public class Main extends JavaPlugin {
                                     return false;
                                 }
                                 return p.performCommand(customCommand.executes);
+                            }
+                        });
+            }
+
+            // Command chains
+            for (CommandChain commandChain : customChains) {
+                commandMap.register("customcommands",
+                        new Command(commandChain.command, "Description", "/<command>", new ArrayList<String>()) {
+
+                            @Override
+                            public boolean execute(CommandSender sender, String arg1, String[] arg2) {
+                                Player p = ((sender instanceof Player) ? (Player) sender : null);
+                                if (p == null) {
+                                    sender.sendMessage("Custom-Commands only work with players");
+                                    return false;
+                                }
+                                for (String index : commandChain.executes) {
+                                    p.performCommand(index);
+                                }
+                                return false;
                             }
                         });
             }
@@ -113,5 +145,14 @@ public class Main extends JavaPlugin {
                     getConfig().getString("commands." + commandName + ".description"),
                     getConfig().getStringList("commands." + commandName + ".aliases")));
         }
+
+        ConfigurationSection commandChains = getConfig().getConfigurationSection("command-chains");
+        for (String chainName : commandChains.getKeys(false)) {
+            LOGGER.info("[Custom-Commands] Found command-chain \"" + chainName + "\"");
+            customChains.add(new CommandChain(
+                    getConfig().getString("command-chains." + chainName + ".command"),
+                    getConfig().getStringList("command-chains." + chainName + ".executes")));
+        }
     }
+
 }

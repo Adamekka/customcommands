@@ -6,24 +6,26 @@
 #############################################
 #commands:                                  #
 #  <some-name>:                             #
-#    executes: "say hi"                     #
+#    executes:                              #
+#        - "say hi"                         #
+#        - "say welcome to our server"      #
 #    description: "Some description"        #
 #    aliases:                               #
 #        - "greet-players"                  #
 #        - "welcome-players"                #
 #############################################
 
-# Commands you define in "aliases" will execute command you defined "executes"
+# Commands you define in "aliases" will execute commands you defined in "executes"
 
-# Command "greet-player" will execute command "say hi"
+# Command "greet-players" will execute commands "say hi" and "say welcome to our server"
 # Same goes for command "welcome-players"
 
 commands:
-  test:
+  welcome:
     executes:
-      - "say test"
-      - "say test1"
-    description: "This is a description"
+      - "say hi"
+      - "say welcome to our server"
+    description: "Some description"
     aliases:
-      - "test1"
-      - "test2"
+      - "greet-players"
+      - "welcome-players"

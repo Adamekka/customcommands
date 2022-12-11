@@ -14,11 +14,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 class CustomCommand {
     public String command;
-    public String executes;
+    public List<String> executes;
     public String description;
     public List<String> aliases;
 
-    public CustomCommand(String command, String executes, String description, List<String> aliases) {
+    public CustomCommand(String command, List<String> executes, String description, List<String> aliases) {
         this.command = command;
         this.executes = executes;
         this.description = description;
@@ -26,20 +26,9 @@ class CustomCommand {
     }
 }
 
-class CommandChain {
-    public String command;
-    public List<String> executes;
-
-    public CommandChain(String command, List<String> executes) {
-        this.command = command;
-        this.executes = executes;
-    }
-}
-
 public class Main extends JavaPlugin {
 
     private static ArrayList<CustomCommand> customCommands;
-    private static ArrayList<CommandChain> customChains;
 
     private static final Logger LOGGER = Logger.getLogger("customcommands");
 
@@ -49,7 +38,6 @@ public class Main extends JavaPlugin {
         loadConfig();
 
         customCommands = new ArrayList<>();
-        customChains = new ArrayList<>();
 
         readConfig();
         registerCommands();
@@ -96,30 +84,14 @@ public class Main extends JavaPlugin {
                                     sender.sendMessage("Custom-Commands only work with players");
                                     return false;
                                 }
-                                return p.performCommand(customCommand.executes);
-                            }
-                        });
-            }
-
-            // Command chains
-            for (CommandChain commandChain : customChains) {
-                commandMap.register("customcommands",
-                        new Command(commandChain.command, "Description", "/<command>", new ArrayList<String>()) {
-
-                            @Override
-                            public boolean execute(CommandSender sender, String arg1, String[] arg2) {
-                                Player p = ((sender instanceof Player) ? (Player) sender : null);
-                                if (p == null) {
-                                    sender.sendMessage("Custom-Commands only work with players");
-                                    return false;
-                                }
-                                for (String index : commandChain.executes) {
+                                for (String index : customCommand.executes) {
                                     p.performCommand(index);
                                 }
                                 return true;
                             }
                         });
             }
+
         } catch (NoSuchFieldException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -141,18 +113,9 @@ public class Main extends JavaPlugin {
             LOGGER.info("[Custom-Commands] Found command \"" + commandName + "\"");
             customCommands.add(new CustomCommand(
                     getConfig().getString("commands." + commandName),
-                    getConfig().getString("commands." + commandName + ".executes"),
+                    getConfig().getStringList("commands." + commandName + ".executes"),
                     getConfig().getString("commands." + commandName + ".description"),
                     getConfig().getStringList("commands." + commandName + ".aliases")));
         }
-
-        ConfigurationSection commandChains = getConfig().getConfigurationSection("command-chains");
-        for (String chainName : commandChains.getKeys(false)) {
-            LOGGER.info("[Custom-Commands] Found command-chain \"" + chainName + "\"");
-            customChains.add(new CommandChain(
-                    getConfig().getString("command-chains." + chainName + ".command"),
-                    getConfig().getStringList("command-chains." + chainName + ".executes")));
-        }
     }
-
 }

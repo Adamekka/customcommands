@@ -20,15 +20,10 @@
 
 commands:
   test:
-    executes: "say test"
+    executes:
+      - "say test"
+      - "say test1"
     description: "This is a description"
     aliases:
       - "test1"
       - "test2"
-
-command-chains:
-  test:
-    command: "test3"
-    executes:
-      - "say test"
-      - "say test1"

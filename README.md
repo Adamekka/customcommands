@@ -2,7 +2,15 @@
 
 Custom-Commands is a Paper plugin designed to make user be able to make aliases to multiple commands
 
-## Build
+## Get JAR file
+
+To get .jar file you need to download it or build it
+
+### Download
+
+Download .jar file from releases
+
+### Build
 
 You need to have Maven installed to be able to compile this
 
@@ -12,7 +20,9 @@ cd customcommands/
 mvn package -f "./pom.xml"
 ```
 
-Then copy .jar file placed in ./target/ to your server folder in plugins  
+## Setup
+
+Copy .jar file placed in ./target/ to your server folder in plugins  
 Something like this:
 
 ```sh
